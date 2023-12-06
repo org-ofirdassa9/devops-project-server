@@ -1,0 +1,11 @@
+fastapi==0.99.1
+uvicorn
+sqlalchemy
+pydantic==1.10
+#pydantic-settings
+python-jose[cryptography]
+psycopg2-binary
+python-json-logger
+passlib[bcrypt]
+python-multipart
+fastapi_jwt_auth==0.5.0
