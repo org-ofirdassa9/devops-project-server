@@ -32,8 +32,12 @@ Let Platform Server is a RESTful API built with FastAPI. It's designed to handle
 3.  Install dependencies:
 
     `pip install -r requirements.txt`
+
+4. Create the database:
+
+    `python database_init.py`
     
-4.  Run the application:
+5.  Run the application:
     
     `uvicorn app.main:app --reload`
     

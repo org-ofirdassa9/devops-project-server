@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.schemas.user_schema import UserBase, UserInDB, UserCreate, AccessToken
 from app.schemas.login_request import LoginRequest
-from app.models.user_model import User
+from app.models.models import User
 from app.crud.user_crud import create_user, authenticate_user
 from app.core.security import validate_password, validate_email
 
@@ -16,16 +16,18 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 @router.post("/signup", summary="Create new User", response_model=UserInDB)
-async def sign_up(user: UserCreate, db: Session = Depends(get_db)):
-    existing_user = db.query(User).filter(User.email == user.email).first()
-    validate_password(user.password)
-    validate_email(user.email)
+async def sign_up(user_create: UserCreate, db: Session = Depends(get_db)):
+    existing_user = db.query(User).filter(User.email == user_create.email).first()
     if existing_user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
-    db_user = create_user(db=db, user=user)
-    new_user = UserInDB(email=db_user.email,id=db_user.id)
-    logger.info("%s successfully signed up", new_user)
-    return new_user
+    validate_email(user_create.email)
+    validate_password(user_create.password)
+    logger.info("Creating new user %s", user_create.email)
+    db_user = create_user(db=db, user=user_create)
+    # Convert the SQLAlchemy model instance to Pydantic model
+    user_response = UserInDB.from_orm(db_user)
+    logger.info("User created %s", db_user.email)
+    return user_response
 
 
 @router.post("/login", summary="Create access and refresh tokens for user", response_model=AccessToken)
@@ -39,7 +41,6 @@ async def login(login_request: LoginRequest, Authorize: AuthJWT = Depends(), db:
         )
     access_token = Authorize.create_access_token(subject=user.email)
     refresh_token = Authorize.create_refresh_token(subject=user.email)
-    # Authorize.set_access_cookies(access_token)
     Authorize.set_refresh_cookies(refresh_token)
     token=AccessToken(access_token=access_token)
     logger.info("%s signed in", login_request.email)
@@ -52,7 +53,7 @@ def refresh(Authorize: AuthJWT = Depends()):
     new_access_token = Authorize.create_access_token(subject=current_user)
     # Set the JWT and CSRF double submit cookies in the response
     Authorize.set_access_cookies(new_access_token)
-    return {"msg":"The token has been refresh"}
+    return {"message":"The token has been refresh", "access_token": new_access_token}
 
 @router.post('/logout')
 def logout(Authorize: AuthJWT = Depends()):
@@ -70,9 +71,9 @@ async def read_users_me(db: Session = Depends(get_db), Authorize: AuthJWT = Depe
     user = db.query(User).filter(User.email == current_user).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    me = UserInDB(email=user.email,id=user.id)
-    logger.info("me: %s", me)
-    return me
+    user_response = UserInDB.from_orm(user)
+    logger.info("me: %s", user_response)
+    return user_response
 
 @router.get("/{user_id}", response_model=UserInDB, dependencies=[Depends(HTTPBearer())])
 async def read_user_by_id(user_id: int, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
@@ -80,6 +81,6 @@ async def read_user_by_id(user_id: int, db: Session = Depends(get_db), Authorize
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    user_response = UserInDB(email=user.email,id=user.id)
+    user_response = UserInDB.from_orm(user)
     logger.info("UserInDB: %s",user_response)
     return user_response
