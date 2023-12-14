@@ -1,11 +1,13 @@
 fastapi==0.99.1
 uvicorn
-sqlalchemy
+sqlalchemy~=2.0.23
 pydantic==1.10
 #pydantic-settings
 python-jose[cryptography]
 psycopg2-binary
 python-json-logger
-passlib[bcrypt]
+passlib[bcrypt]~=1.7.4
 python-multipart
 fastapi_jwt_auth==0.5.0
+supabase~=2.2.1
+pytest~=7.4.3
