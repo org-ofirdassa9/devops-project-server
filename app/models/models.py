@@ -1,4 +1,6 @@
+from typing import Optional
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Date
+from sqlalchemy.orm import Mapped
 from app.core.database import Base
 
 class User(Base):
@@ -9,10 +11,11 @@ class User(Base):
     hashed_password = Column(String)
     first_name = Column(String, index=True)
     last_name = Column(String, index=True)
-    address = Column(String, index=True, nullable=True)
-    profile_image = Column(String, nullable=True)
-    phone_number = Column(String, nullable=True)
-    marketing_allowed = Column(Boolean, index=True)
+    address: Mapped[Optional[str]] = None
+    phone_number: Mapped[Optional[str]] = None
+    marketing_allowed: Mapped[Optional[bool]] = None
+    profile_image: Mapped[Optional[str]] = None
+    __allow_unmapped__ = True
 
 class Category(Base):
     __tablename__ = "categories"
