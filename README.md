@@ -1,9 +1,9 @@
-# Let Platform Server
+# User Authentication Service
 
 
 ## Overview
 
-Let Platform Server is a RESTful API built with FastAPI. It's designed to handle user authentication and management with JWT access and refresh tokens, providing a secure and efficient way to manage user sessions.
+A RESTful API built with FastAPI. It's designed to handle user authentication and management with JWT access and refresh tokens, providing a secure and efficient way to manage user sessions.
 
 ## Features
 
@@ -23,7 +23,7 @@ Let Platform Server is a RESTful API built with FastAPI. It's designed to handle
 
 1.  Clone the repository:
     
-    `git clone https://github.com/your-repo/let-platform-server.git cd let-platform-server`
+    `git clone https://github.com/org-ofirdassa9/user-authentication-service.git cd let-platform-server`
     
 2.  Set up a virtual environment:
     
@@ -32,8 +32,12 @@ Let Platform Server is a RESTful API built with FastAPI. It's designed to handle
 3.  Install dependencies:
 
     `pip install -r requirements.txt`
+
+4. Create the database:
+
+    `python database_init.py`
     
-4.  Run the application:
+5.  Run the application:
     
     `uvicorn app.main:app --reload`
     
@@ -46,3 +50,4 @@ Let Platform Server is a RESTful API built with FastAPI. It's designed to handle
 *   `GET /api/v1/users/me`: Get the profile of the current user.
 *   `POST /api/v1/users/refresh`: Refresh the access token.
 *   `GET /api/v1/users/{user_id}`: Get user details by ID.
+*   `PUT /api/v1/users/{user_id}`: Update user attributes

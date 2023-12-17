@@ -2,8 +2,8 @@ from pydantic import BaseSettings
 from fastapi_jwt_auth import AuthJWT
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Let Platform Server"
-    DATABASE_URL: str = "postgresql://postgres:Aa123456@localhost/let2"
+    PROJECT_NAME: str = "DevOps Project"
+    DATABASE_URL: str = "postgresql://postgres:Aa123456@localhost/project"
     authjwt_secret_key: str = "your-secret-key"
     # Configure application to store and get JWT from cookies
     authjwt_token_location: set = ('headers','cookies')

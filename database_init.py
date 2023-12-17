@@ -1,5 +1,5 @@
 from app.core.database import engine
-from app.models.user_model import Base  # Import Base from your user model
+from app.models.models import Base  # Import Base from your user model
 import logging
 
 logger = logging.getLogger(__name__)
