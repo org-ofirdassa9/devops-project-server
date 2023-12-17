@@ -24,9 +24,8 @@ async def sign_up(user_create: UserCreate, db: Session = Depends(get_db)):
     validate_password(user_create.password)
     logger.info("Creating new user %s", user_create.email)
     db_user = create_user(db=db, user=user_create)
-    # Convert the SQLAlchemy model instance to Pydantic model
     user_response = UserInDB.from_orm(db_user)
-    logger.info("User created %s", db_user.email)
+    logger.info("User created %s", user_response)
     return user_response
 
 
@@ -39,8 +38,9 @@ async def login(login_request: LoginRequest, authorize: AuthJWT = Depends(), db:
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = authorize.create_access_token(subject=user.email)
-    refresh_token = authorize.create_refresh_token(subject=user.email)
+    claims = {"isAdmin": user.isAdmin}
+    access_token = authorize.create_access_token(subject=user.email, user_claims=claims)
+    refresh_token = authorize.create_refresh_token(subject=user.email, user_claims=claims)
     authorize.set_refresh_cookies(refresh_token)
     token = AccessToken(access_token=access_token)
     logger.info("%s signed in", login_request.email)
