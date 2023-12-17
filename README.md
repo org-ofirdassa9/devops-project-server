@@ -23,7 +23,7 @@ A RESTful API built with FastAPI. It's designed to handle user authentication an
 
 1.  Clone the repository:
     
-    `git clone https://github.com/org-ofirdassa9/user-authentication-service.git cd let-platform-server`
+    `git clone https://github.com/org-ofirdassa9/user-authentication-service.git cd user-authentication-service`
     
 2.  Set up a virtual environment:
     
