@@ -1,7 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_jwt_auth import AuthJWT
-from fastapi.security import HTTPBearer
-import logging
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.schemas.user_schema import UserInDB, UserCreate, AccessToken
@@ -9,6 +7,7 @@ from app.schemas.login_request import LoginRequest
 from app.models.models import User
 from app.crud.user_crud import create_user, authenticate_user
 from app.core.security import validate_password, validate_email
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +50,9 @@ async def login(login_request: LoginRequest, authorize: AuthJWT = Depends(), db:
 def refresh(authorize: AuthJWT = Depends()):
     authorize.jwt_refresh_token_required()
     current_user = authorize.get_jwt_subject()
-    new_access_token = authorize.create_access_token(subject=current_user)
+    raw_jwt = authorize.get_raw_jwt()
+    claims = {"isAdmin": raw_jwt.get("isAdmin")}
+    new_access_token = authorize.create_access_token(subject=current_user, user_claims=claims)
     # Set the JWT and CSRF double submit cookies in the response
     authorize.set_access_cookies(new_access_token)
     return {"message": "The token has been refresh", "access_token": new_access_token}

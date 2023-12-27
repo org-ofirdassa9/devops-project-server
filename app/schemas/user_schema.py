@@ -7,14 +7,10 @@ class UserBase(BaseModel):
     email: str
     first_name: str
     last_name: str
-    heart_rate: int = None
-    blood_pressure: float = None
-    body_temperature: float = None
-    blood_sugar_level: float = None
-
+        
 # Properties to receive on user update
 class UserInDB(UserBase):
-    id: int
+    user_id: int
     registration_date: date
     isAdmin: bool
 
@@ -30,10 +26,6 @@ class UserUpdate(BaseModel):
     email: Optional[str]
     first_name: Optional[str]
     last_name: Optional[str]
-    heart_rate: Optional[int]
-    blood_pressure: Optional[float]
-    body_temperature: Optional[float]
-    blood_sugar_level: Optional[float]
 
     class Config:
         orm_mode = True

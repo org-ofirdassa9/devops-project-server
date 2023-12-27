@@ -42,7 +42,7 @@ async def shutdown_event():
 
 
 # Directory containing your endpoint modules
-endpoints_directory = os.path.join(os.path.dirname(__file__), 'app/api/api_v1/endpoints')
+endpoints_directory = os.path.join(os.path.dirname(__file__), 'app/api/metrics_process/endpoints')
 
 # Iterate over each file in the endpoints directory
 for filename in os.listdir(endpoints_directory):
@@ -52,8 +52,8 @@ for filename in os.listdir(endpoints_directory):
         module_name = filename[:-3]
 
         # Dynamically import the module
-        module = importlib.import_module(f'app.api.api_v1.endpoints.{module_name}')
+        module = importlib.import_module(f'app.api.metrics_process.endpoints.{module_name}')
 
         # Add the router from the imported module
         if hasattr(module, 'router'):
-            app.include_router(module.router, prefix=f"/api/v1/{module_name}", tags=[module_name])
+            app.include_router(module.router, prefix=f"/api/metrics_process/{module_name}", tags=[module_name])

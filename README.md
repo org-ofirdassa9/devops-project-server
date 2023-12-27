@@ -44,10 +44,10 @@ A RESTful API built with FastAPI. It's designed to handle user authentication an
 
 ### API Endpoints
 
-*   `POST /api/v1/users/signup`: Register a new user.
-*   `POST /api/v1/users/login`: Login and receive access and refresh tokens.
-*   `POST /api/v1/users/logout`: Logout and clear tokens.
-*   `GET /api/v1/users/me`: Get the profile of the current user.
-*   `POST /api/v1/users/refresh`: Refresh the access token.
-*   `GET /api/v1/users/{user_id}`: Get user details by ID.
-*   `PUT /api/v1/users/{user_id}`: Update user attributes
+*   `POST /api/users_service/users/signup`: Register a new user.
+*   `POST /api/users_service/users/login`: Login and receive access and refresh tokens.
+*   `POST /api/users_service/users/logout`: Logout and clear tokens.
+*   `GET /api/users_service/users/me`: Get the profile of the current user.
+*   `POST /api/users_service/users/refresh`: Refresh the access token.
+*   `GET /api/users_service/users/{user_id}`: Get user details by ID.
+*   `PUT /api/users_service/users/{user_id}`: Update user attributes
