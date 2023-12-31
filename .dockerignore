@@ -1,0 +1,27 @@
+# Ignore common editor and OS files
+.vscode
+.idea
+.DS_Store
+
+# Ignore Python bytecode
+__pycache__
+*.pyc
+
+# Ignore log files
+logs/
+
+# Ignore test-related files
+tests/
+
+# Ignore local development files
+.env
+*.log
+
+# Ignore virtual environment
+venv/
+
+# Ignore Docker specific files
+.dockerignore
+.docker
+
+README.md
