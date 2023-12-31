@@ -1,27 +1,12 @@
-# from app.api.report_generator.generator import generate_trend_analysis_report, generate_overview_report
-# from app.core.database import get_db
-# from sqlalchemy.orm import Session
-
-# if __name__ == '__main__':
-#     db: Session = next(get_db())
-#     print(generate_trend_analysis_report(1, db))
-#     print(generate_overview_report(1, db))
-#     db.close()
-#     print("Done")
-#     exit(0)
-
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 import logging
-# from logger import setup_logging
 import os
 import importlib
 
-# setup_logging()
-# setup loggers
 logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 app = FastAPI(title=settings.PROJECT_NAME)

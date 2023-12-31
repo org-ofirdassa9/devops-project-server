@@ -1,3 +1,5 @@
+from typing import Dict
+from matplotlib import pyplot as plt
 from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
 import matplotlib.pyplot as plt
@@ -69,7 +71,11 @@ async def overview_visualization(user_id: int, db: Session = Depends(get_db)):
     values = list(overview_report.values())
 
     # Ensure values are converted to numeric types (float or int)
-    values = [float(value) for value in values]
+    try:
+        values = [float(value) for value in values]
+    except ValueError:
+        # Handle the case where a value cannot be converted to float
+        return Response(content="Invalid values in overview report", status_code=400)
 
     plt.figure(figsize=(10, 8))
     plt.bar(metrics, values, color='skyblue')  # Use bar instead of barh
@@ -96,12 +102,13 @@ async def overview_visualization(user_id: int, db: Session = Depends(get_db)):
 async def trend_analysis_visualization(user_id: int, db: Session = Depends(get_db)):
     min_max_report = generate_min_max_report(user_id, db)
 
-    # Extracting data for visualization
+    if not min_max_report:
+        return Response(content="No data available for trend analysis", media_type="text/plain")
+
     metrics = list(min_max_report.keys())
     min_values = [min_max_report[metric]['min'] for metric in metrics]
     max_values = [min_max_report[metric]['max'] for metric in metrics]
 
-    # Creating a line chart for visualization
     plt.figure(figsize=(10, 6))
     plt.plot(metrics, min_values, marker='o', label='Min Values')
     plt.plot(metrics, max_values, marker='x', label='Max Values')
@@ -110,16 +117,13 @@ async def trend_analysis_visualization(user_id: int, db: Session = Depends(get_d
     plt.title('Trend Analysis Report Visualization')
     plt.legend()
 
-    # Saving the visualization as an image
     image_path = f'trend_analysis_visualization_{user_id}.png'
     plt.savefig(image_path, format='png')
 
-    # Prepare response to initiate file download
     file_response = Response(content=open(image_path, 'rb').read())
     file_response.headers["Content-Disposition"] = f"attachment; filename={image_path}"
     file_response.headers["Content-Type"] = "image/png"
 
-    # Delete the PNG file after download
     os.remove(image_path)
 
     return file_response

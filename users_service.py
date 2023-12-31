@@ -4,12 +4,9 @@ from fastapi_jwt_auth.exceptions import AuthJWTException
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 import logging
-# from logger import setup_logging
 import os
 import importlib
 
-# setup_logging()
-# setup loggers
 logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 app = FastAPI(title=settings.PROJECT_NAME)

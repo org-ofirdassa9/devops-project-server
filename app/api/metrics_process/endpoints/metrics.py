@@ -38,42 +38,42 @@ async def update_health_metrics_for_user(user_id: int, user_basic_health_metrics
     db.refresh(user_health_metrics)
 
     # Check if the new value is bigger or smaller than the min or max value
-    if user_health_metrics.heart_rate < user_health_metrics.min_heart_rate:
+    if user_health_metrics.min_heart_rate is None or user_health_metrics.heart_rate < user_health_metrics.min_heart_rate:
         user_health_metrics.min_heart_rate = user_health_metrics.heart_rate
         db.commit()
         db.refresh(user_health_metrics)
         
-    if user_health_metrics.heart_rate > user_health_metrics.max_heart_rate:
+    if user_health_metrics.max_heart_rate is None or user_health_metrics.heart_rate > user_health_metrics.max_heart_rate:
         user_health_metrics.max_heart_rate = user_health_metrics.heart_rate
         db.commit()
         db.refresh(user_health_metrics)
         
-    if user_health_metrics.blood_pressure < user_health_metrics.min_blood_pressure:
+    if user_health_metrics.min_blood_pressure is None or user_health_metrics.blood_pressure < user_health_metrics.min_blood_pressure:
         user_health_metrics.min_blood_pressure = user_health_metrics.blood_pressure
         db.commit()
         db.refresh(user_health_metrics)
         
-    if user_health_metrics.blood_pressure > user_health_metrics.max_blood_pressure:
+    if user_health_metrics.max_blood_pressure is None or user_health_metrics.blood_pressure > user_health_metrics.max_blood_pressure:
         user_health_metrics.max_blood_pressure = user_health_metrics.blood_pressure
         db.commit()
         db.refresh(user_health_metrics)
         
-    if user_health_metrics.body_temperature < user_health_metrics.min_body_temperature:
+    if user_health_metrics.min_body_temperature is None or user_health_metrics.body_temperature < user_health_metrics.min_body_temperature:
         user_health_metrics.min_body_temperature = user_health_metrics.body_temperature
         db.commit()
         db.refresh(user_health_metrics)
         
-    if user_health_metrics.body_temperature > user_health_metrics.max_body_temperature:
+    if user_health_metrics.max_body_temperature is None or user_health_metrics.body_temperature > user_health_metrics.max_body_temperature:
         user_health_metrics.max_body_temperature = user_health_metrics.body_temperature
         db.commit()
         db.refresh(user_health_metrics)
         
-    if user_health_metrics.blood_sugar_level < user_health_metrics.min_blood_sugar_level:
+    if user_health_metrics.min_blood_sugar_level is None or user_health_metrics.blood_sugar_level < user_health_metrics.min_blood_sugar_level:
         user_health_metrics.min_blood_sugar_level = user_health_metrics.blood_sugar_level
         db.commit()
         db.refresh(user_health_metrics)
         
-    if user_health_metrics.blood_sugar_level > user_health_metrics.max_blood_sugar_level:
+    if user_health_metrics.max_blood_sugar_level is None or user_health_metrics.blood_sugar_level > user_health_metrics.max_blood_sugar_level:
         user_health_metrics.max_blood_sugar_level = user_health_metrics.blood_sugar_level
         db.commit()
         db.refresh(user_health_metrics)

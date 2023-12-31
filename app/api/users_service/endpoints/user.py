@@ -84,9 +84,11 @@ async def read_user_by_id(user_id: int, db: Session = Depends(get_db), authorize
     
     return user_with_health_metrics
 
-
 @router.put("/{user_id}", response_model=UserInDB, dependencies=[Depends(HTTPBearer())])
 async def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db), authorize: AuthJWT = Depends()):
+    if user_id < 1:
+        raise HTTPException(status_code=400, detail="Invalid user_id")
+
     authorize.jwt_required()
     current_user = authorize.get_jwt_subject()
     raw_jwt = authorize.get_raw_jwt()
