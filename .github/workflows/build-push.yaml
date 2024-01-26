@@ -134,7 +134,7 @@ jobs:
           elif [[ "$GITHUB_REF" == "refs/heads/stage" ]]; then
             # For stage branch, set image tag as 0.$IMAGE_TAG
             docker build -f report_generator.Dockerfile -t "$ECR_REGISTRY/$ECR_REPOSITORY:report-generator-0.$IMAGE_TAG" .
-            docker push "$ECR_REGISTRY/$ECR_REPOSITORY:ureport-generator-0.$IMAGE_TAG"
+            docker push "$ECR_REGISTRY/$ECR_REPOSITORY:report-generator-0.$IMAGE_TAG"
           else
             echo "Skipping image build for $GITHUB_REF"
             exit 1
