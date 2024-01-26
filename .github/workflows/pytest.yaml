@@ -39,13 +39,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest-github-report
-     - name: Report via Environment
-    env:
-      pytest_github_report: true
-      pytest_report_title: ":unicorn: Report With Custom Emojis :unicorn:"
-      pytest_passed_emoji: ":green_heart:"
-      pytest_failed_emoji: ":heart:"
-      pytest_xpassed_emoji: ":bangbang:"
-      pytest_xfailed_emoji: ":bangbang:"
-      pytest_skipped_emoji: ":shipit:"
-    run: pytest tests
+      - name: Report via Environment
+        env:
+          pytest_github_report: true
+          pytest_report_title: ":unicorn: Report With Custom Emojis :unicorn:"
+          pytest_passed_emoji: ":green_heart:"
+          pytest_failed_emoji: ":heart:"
+          pytest_xpassed_emoji: ":bangbang:"
+          pytest_xfailed_emoji: ":bangbang:"
+          pytest_skipped_emoji: ":shipit:"
+        run: pytest tests
