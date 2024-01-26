@@ -1,4 +1,4 @@
-name: pytest
+name: PyTest
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Python # Set Python version
         uses: actions/setup-python@v4
         with:
