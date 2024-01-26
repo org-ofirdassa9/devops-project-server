@@ -12,6 +12,7 @@ logs/
 
 # Ignore test-related files
 tests/
+.pytest_cache/
 
 # Ignore local development files
 .env
@@ -25,3 +26,4 @@ venv/
 .docker
 
 README.md
+postgresql/

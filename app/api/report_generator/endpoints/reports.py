@@ -1,18 +1,17 @@
-from typing import Dict
 from matplotlib import pyplot as plt
 from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
-import matplotlib.pyplot as plt
 import os
 from app.api.report_generator.generator import generate_overview_report, generate_min_max_report
 from app.core.database import get_db
 from fastapi.security import HTTPBearer
 from fastapi_jwt_auth import AuthJWT
 from fastapi import HTTPException
-
+import logging
+from app.models.models import User
 
 router = APIRouter()
-
+logger = logging.getLogger(__name__)
 # Define the route to generate the report
 @router.get("/{user_id}", dependencies=[Depends(HTTPBearer())])
 async def generate_report(user_id: int, db: Session = Depends(get_db), authorize: AuthJWT = Depends()):
@@ -20,7 +19,13 @@ async def generate_report(user_id: int, db: Session = Depends(get_db), authorize
     authorize.jwt_required()
     current_user = authorize.get_jwt_subject()
     raw_jwt = authorize.get_raw_jwt()
-    if current_user != user_id and not raw_jwt.get("isAdmin"):
+    user_email = db.query(User.email).filter(User.user_id == user_id).scalar()
+    logger.info("Current user: %s", current_user)
+    logger.info("Raw JWT: %s", raw_jwt)
+    logger.info("User email: %s", user_email)
+    if user_email is None:
+        raise HTTPException(status_code=404, detail="User not found") 
+    elif current_user != user_email and not raw_jwt.get("isAdmin"):
         raise HTTPException(status_code=401, detail="Not authorized to access this report")
 
     # Generate the report and return the file response
