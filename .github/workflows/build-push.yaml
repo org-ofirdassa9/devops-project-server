@@ -63,19 +63,19 @@ jobs:
           IMAGE_TAG: ${{github.run_number}}
 
         run: |
-          if [[ "${{ github.event.base.ref }}" == "master" ]]; then
+          if [[ "$GITHUB_REF" == "master" ]]; then
             # For master branch, set image tag as 1.$IMAGE_TAG
             docker build -f users_service.Dockerfile -t "$ECR_REGISTRY/$ECR_REPOSITORY:users-service-1.$IMAGE_TAG" .
             docker tag "$ECR_REGISTRY/$ECR_REPOSITORY:1.$IMAGE_TAG" "$ECR_REGISTRY/$ECR_REPOSITORY:users-service-latest"
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:users-service-1.$IMAGE_TAG"
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:users-service-latest"
-          elif [[ "${{ github.event.base.ref }}" == "stage" ]]; then
+          elif [[ "$GITHUB_REF" == "stage" ]]; then
             # For stage branch, set image tag as 0.$IMAGE_TAG
             docker build -f users_service.Dockerfile -t "$ECR_REGISTRY/$ECR_REPOSITORY:users-service-0.$IMAGE_TAG" .
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:users-service-0.$IMAGE_TAG"
           else
-            echo "Skipping image build for ${{ github.event.base.ref }}"
-            exit 0
+            echo "Skipping image build for $GITHUB_REF"
+            exit 1
           fi
 
   report-generator:
@@ -125,19 +125,19 @@ jobs:
           IMAGE_TAG: ${{github.run_number}}
 
         run: |
-          if [[ "${{ github.event.base.ref }}" == "master" ]]; then
+          if [[ "$GITHUB_REF" == "master" ]]; then
             # For master branch, set image tag as 1.$IMAGE_TAG
             docker build -f report_generator.Dockerfile -t "$ECR_REGISTRY/$ECR_REPOSITORY:report-generator-1.$IMAGE_TAG" .
             docker tag "$ECR_REGISTRY/$ECR_REPOSITORY:1.$IMAGE_TAG" "$ECR_REGISTRY/$ECR_REPOSITORY:report-generator-latest"
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:report-generator-1.$IMAGE_TAG"
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:report-generator-latest"
-          elif [[ "${{ github.event.base.ref }}" == "stage" ]]; then
+          elif [[ "$GITHUB_REF" == "stage" ]]; then
             # For stage branch, set image tag as 0.$IMAGE_TAG
             docker build -f report_generator.Dockerfile -t "$ECR_REGISTRY/$ECR_REPOSITORY:report-generator-0.$IMAGE_TAG" .
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:ureport-generator-0.$IMAGE_TAG"
           else
-            echo "Skipping image build for ${{ github.event.base.ref }}"
-            exit 0
+            echo "Skipping image build for $GITHUB_REF"
+            exit 1
           fi
 
   metrics-process:
@@ -187,25 +187,25 @@ jobs:
           IMAGE_TAG: ${{github.run_number}}
 
         run: |
-          if [[ "${{ github.event.base.ref }}" == "master" ]]; then
+          if [[ "$GITHUB_REF" == "master" ]]; then
             # For master branch, set image tag as 1.$IMAGE_TAG
             docker build -f metrics_process.Dockerfile -t "$ECR_REGISTRY/$ECR_REPOSITORY:metrics-process-1.$IMAGE_TAG" .
             docker tag "$ECR_REGISTRY/$ECR_REPOSITORY:1.$IMAGE_TAG" "$ECR_REGISTRY/$ECR_REPOSITORY:metrics-process-latest"
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:metrics-process-1.$IMAGE_TAG"
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:metrics-process-latest"
-          elif [[ "${{ github.event.base.ref }}" == "stage" ]]; then
+          elif [[ "$GITHUB_REF" == "stage" ]]; then
             # For stage branch, set image tag as 0.$IMAGE_TAG
             docker build -f metrics_process.Dockerfile -t "$ECR_REGISTRY/$ECR_REPOSITORY:metrics-process-0.$IMAGE_TAG" .
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:metrics-process-0.$IMAGE_TAG"
           else
-            echo "Skipping image build for ${{ github.event.base.ref }}"
-            exit 0
+            echo "Skipping image build for $GITHUB_REF"
+            exit 1
           fi
 
   init:
     runs-on: ubuntu-latest
     needs: if_merged
-    
+
     permissions:
       id-token: write
       contents: read
@@ -249,17 +249,17 @@ jobs:
           IMAGE_TAG: ${{github.run_number}}
 
         run: |
-          if [[ "${{ github.event.base.ref }}" == "master" ]]; then
+          if [[ "$GITHUB_REF" == "master" ]]; then
             # For master branch, set image tag as 1.$IMAGE_TAG
             docker build -f init.Dockerfile -t "$ECR_REGISTRY/$ECR_REPOSITORY:init-1.$IMAGE_TAG" .
             docker tag "$ECR_REGISTRY/$ECR_REPOSITORY:1.$IMAGE_TAG" "$ECR_REGISTRY/$ECR_REPOSITORY:init-latest"
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:init-1.$IMAGE_TAG"
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:init-latest"
-          elif [[ "${{ github.event.base.ref }}" == "stage" ]]; then
+          elif [[ "$GITHUB_REF" == "stage" ]]; then
             # For stage branch, set image tag as 0.$IMAGE_TAG
             docker build -f init.Dockerfile -t "$ECR_REGISTRY/$ECR_REPOSITORY:init-0.$IMAGE_TAG" .
             docker push "$ECR_REGISTRY/$ECR_REPOSITORY:init-0.$IMAGE_TAG"
           else
-            echo "Skipping image build for ${{ github.event.base.ref }}"
-            exit 0
+            echo "Skipping image build for $GITHUB_REF"
+            exit 1
           fi
