@@ -18,7 +18,7 @@ jobs:
         
   users-service:
     runs-on: ubuntu-latest
-    needs: pytest
+    needs: if_merged
 
     permissions:
       id-token: write
@@ -80,6 +80,7 @@ jobs:
 
   report-generator:
     runs-on: ubuntu-latest
+    needs: if_merged
 
     permissions:
       id-token: write
@@ -141,6 +142,7 @@ jobs:
 
   metrics-process:
     runs-on: ubuntu-latest
+    needs: if_merged
 
     permissions:
       id-token: write
@@ -202,7 +204,8 @@ jobs:
 
   init:
     runs-on: ubuntu-latest
-
+    needs: if_merged
+    
     permissions:
       id-token: write
       contents: read
