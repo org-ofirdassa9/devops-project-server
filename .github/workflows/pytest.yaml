@@ -1,10 +1,10 @@
 name: PyTest
 
 on:
-  push:
+  pull_request:
     branches:
-      - 'master'
-      - 'stage'
+      - master
+      - stage
 
 jobs:
   pytest:
