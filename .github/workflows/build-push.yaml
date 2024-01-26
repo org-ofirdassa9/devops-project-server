@@ -63,7 +63,7 @@ jobs:
           IMAGE_TAG: ${{github.run_number}}
 
         run: |
-        if [[ "${{ github.event.base.ref }}" == "master" ]]; then
+          if [[ "${{ github.event.base.ref }}" == "master" ]]; then
             # For master branch, set image tag as 1.$IMAGE_TAG
             docker build -f users_service.Dockerfile -t "$ECR_REGISTRY/$ECR_REPOSITORY:users-service-1.$IMAGE_TAG" .
             docker tag "$ECR_REGISTRY/$ECR_REPOSITORY:1.$IMAGE_TAG" "$ECR_REGISTRY/$ECR_REPOSITORY:users-service-latest"
