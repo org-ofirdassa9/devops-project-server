@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     # Change to 'lax' in production to make your website more secure from CSRF Attacks, default is None
     authjwt_cookie_samesite: str = 'lax'
 
+    CORS_ORIGIN: str = os.environ.get("CORS_ORIGIN", "http://localhost:5000")
+
 settings = Settings()
 
 @AuthJWT.load_config

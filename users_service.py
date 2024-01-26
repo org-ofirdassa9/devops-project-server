@@ -9,11 +9,16 @@ import importlib
 
 logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
-app = FastAPI(title=settings.PROJECT_NAME)
+app = FastAPI(
+    docs_url=f"/users_service/docs",
+    openapi_url="/users_service/openapi.json",
+    redoc_url=None,
+    version="0.0.1",
+    title=settings.PROJECT_NAME)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Your frontend URL
+    allow_origins=[settings.CORS_ORIGIN],  # Your frontend URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
