@@ -91,17 +91,17 @@ jobs:
       full_image: ${{ steps.build-publish.outputs.full_image }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::476209828715:role/role-github-actions
           aws-region: "eu-west-1"
       
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
         with:
           registries: "476209828715"
           mask-password: "true" # see: https://github.com/aws-actions/amazon-ecr-login#docker-credentials
@@ -153,17 +153,17 @@ jobs:
       full_image: ${{ steps.build-publish.outputs.full_image }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::476209828715:role/role-github-actions
           aws-region: "eu-west-1"
       
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
         with:
           registries: "476209828715"
           mask-password: "true" # see: https://github.com/aws-actions/amazon-ecr-login#docker-credentials
@@ -215,17 +215,17 @@ jobs:
       full_image: ${{ steps.build-publish.outputs.full_image }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::476209828715:role/role-github-actions
           aws-region: "eu-west-1"
       
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
         with:
           registries: "476209828715"
           mask-password: "true" # see: https://github.com/aws-actions/amazon-ecr-login#docker-credentials
