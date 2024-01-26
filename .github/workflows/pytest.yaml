@@ -38,12 +38,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Test with pytest
-        run: pytest tests --doctest-modules --junitxml=junit/test-results.xml
-      - name: Upload pytest test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: pytest-results
-          path: junit/test-results.xml
-        # Use always() to always run this step to publish test results when there are test failures
-        if: ${{ always() }}
+          pip install pytest-github-report
+     - name: Report via Environment
+    env:
+      pytest_github_report: true
+      pytest_report_title: ":unicorn: Report With Custom Emojis :unicorn:"
+      pytest_passed_emoji: ":green_heart:"
+      pytest_failed_emoji: ":heart:"
+      pytest_xpassed_emoji: ":bangbang:"
+      pytest_xfailed_emoji: ":bangbang:"
+      pytest_skipped_emoji: ":shipit:"
+    run: pytest tests
