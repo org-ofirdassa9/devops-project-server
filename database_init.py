@@ -41,7 +41,10 @@ def init_db():
 
     # Add the sample user and health metrics to the database
     db = SessionLocal()
-    db.add(sample_user)
+    try:
+        db.add(sample_user)
+    except Exception as e:
+        logger.error(f"Error adding sample user to the database: {str(e)}")
     db.commit()
     db.close()
 
